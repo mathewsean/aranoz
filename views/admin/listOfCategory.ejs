@@ -1,0 +1,135 @@
+<%- include('../layouts/adminLayout/adminheader') %>
+
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+<link href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.css" rel="stylesheet"/>
+  <style>
+    .dataTables_wrapper .sorting:after,
+    .dataTables_wrapper .sorting_asc:after,
+    .dataTables_wrapper .sorting_desc:after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 12px;
+      display: inline-block;
+      margin-left: 5px;
+      content: "\f0dc";
+    }
+
+    .dataTables_wrapper .sorting_asc:after {
+      content: "\f0de";
+    }
+
+    .dataTables_wrapper .sorting_desc:after {
+      content: "\f0dd";
+    }
+  </style>
+
+</head>
+
+    <body>
+        <!--::header part start::-->
+
+        <%- include('../layouts/adminLayout/adminNavBar') %>
+
+            <!-- Header part end-->
+            <div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <div class="container">
+                <div class="input-group" style="justify-content: space-between;">
+                    <div>
+                        <h2>Category Collection</h2>
+                    </div>
+                    <!-- <div>
+                        <form action="" style="display: flex; justify-content: flex-end;">
+                            <input type="text" placeholder="Search.." name="search" class="form-control">
+                            <input type="submit" value="Search" class="genric-btn primary-border small">
+                    
+                    </form>
+                </div> -->
+
+                </div>
+                <div class="table">
+                    <table class="table table-striped table-sm" id="myTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(categories.length> 0){%>
+                                <%for(let i=0; i < categories.length; i++){%>
+                                    <tr>
+                                        <td>
+                                            <%= categories[i].category %>
+                                        </td>
+
+                                        <td>
+                                            <button type="button" class="btn btn-primary">
+                                                <a href="/admin/edit_category?id=<%=categories[i]._id%>"
+                                                    style="color: rgb(244, 240, 240)">Edit</a>
+                                            </button>
+
+                                            <%if(categories[i].block){ %>
+
+                                                <button type="button" class="btn btn-success"
+                                                    onclick="block('<%=categories[i]._id%>')">UnBlock</button>
+
+                                                <% }else{%>
+
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="block('<%=categories[i]._id%>')">Block</button>
+
+                                                    <%}%>
+
+                                        </td>
+
+                                    </tr>
+                                    <%}}else{}%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function () {
+                    $('#myTable').DataTable();
+                });
+            </script>
+
+
+            <script>
+                function block(data) {
+                    fetch("/admin/block_category", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            id: data
+                        })
+
+                    })
+                        .then((res) => res.json())
+                        .then((res) => window.location.reload())
+                        .catch(error => console.error(error))
+                }
+            </script>
+            
+
+
+
+            <%- include('../layouts/adminLayout/adminfooter') %>
+
+            <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.js"></script>
+        <script>
+          $(document).ready(function () {
+            $('#myTable').DataTable();
+          });
+        </script>

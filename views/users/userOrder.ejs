@@ -1,0 +1,336 @@
+
+<%- include('../layouts/userLayout/userHeader') %>
+
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+<link href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.css" rel="stylesheet"/>
+  <style>
+    .dataTables_wrapper .sorting:after,
+    .dataTables_wrapper .sorting_asc:after,
+    .dataTables_wrapper .sorting_desc:after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 12px;
+      display: inline-block;
+      margin-left: 5px;
+      content: "\f0dc";
+    }
+
+    .dataTables_wrapper .sorting_asc:after {
+      content: "\f0de";
+    }
+
+    .dataTables_wrapper .sorting_desc:after {
+      content: "\f0dd";
+    }
+  </style>
+
+</head>
+
+<body>
+  <!--::header part start::-->
+  <%- include('../layouts/userLayout/userNavBarLogin') %>
+  <!-- Header part end-->
+
+
+  <!--================Home Banner Area =================-->
+  <!-- breadcrumb start-->
+  <section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Your Order List</h2>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb start-->
+
+  <!--================Cart Area =================-->
+
+       <%
+          if(typeof message !== 'undefined'){
+          %><p style="color: rgb(186, 13, 13);"><%=message%><%
+          }
+        %>
+  <section class="cart_area padding_top">
+    <div class="container">
+      <div class="cart_inner">
+        <div class="table">
+
+          <%if(order.length){%>
+          <form action="/user_order" method="get" >
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">  
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate" oninput="compareDates()">
+    
+            <button type="submit" class="genric-btn primary-border small">Filter</button>
+            <span id="dateError"></span>
+    
+          </form>
+          <%}%>
+          <% if(order.length > 0){ %> 
+          <table class="table" id="myTable">
+                       
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Order Number</th>
+                <th scope="col">Address</th>
+                <th scope="col">Payment</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Status</th>
+                <th scope="col">View</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              
+              <%for(let i=order.length-1; i >= 0; i-- ){%>
+              <tr>
+                
+                <td>
+                  <h5><%= order[i].orderDate %></h5>
+                </td>
+                <td>
+                  <h5><%= order[i]._id %></h5>
+                </td>                 
+                <td>
+                  <h5><%= order[i].address[0] %></h5>
+                </td>
+                <td>
+                  <h5><%= order[i].payment %></h5>
+                </td>
+                <td>
+                  <h5>Rs.<%= order[i].total %></h5>
+                </td>
+                <td>
+                  <h5><%= order[i].orderStatus %></h5>
+                </td>               
+                
+                <td>
+                  <button type="button" value="" class="btn_3" >
+                    <a href="/user_order_detail?id=<%=order[i]._id%>" style="color: white;">View</a> 
+                  </button>
+                </td>
+                <td>
+                  <% if(order[i].orderStatus !== "Cancelled" && order[i].orderStatus !== "Delivered" && order[i].orderStatus !== "Returned") {%>
+                  <button type="button" value="" class="btn_3" onclick="cancelOrder('<%=order[i]._id%>','<%= order[i].total %>')">
+                    Cancel 
+                  </button> 
+                  <% }else if(order[i].orderStatus == "Delivered" && moment(order[i].deliveryDate).add(7, 'days').isAfter(moment())){ %>
+                    
+                    <select name="" id="" onchange="returnOrder('<%=order[i]._id%>','<%= order[i].total %>',this.value)">
+                      <option value="">Return</option>
+                      <option value="You Didn't Like">You Didn't Like</option>
+                      <option value="Size Issue">Size Issue</option>
+                      <option value="Damaged Item">Damaged Item</option>
+
+                    </select>
+
+
+                  <!-- <button type="button" value="" class="btn_3" onclick="returnOrder('<%=order[i]._id%>','<%= order[i].total %>')">
+                    Return 
+                  </button> -->
+                  <%}%>
+                </td>
+              </tr>
+
+              <%}%>   
+              
+               
+            </tbody>
+          </table>
+          <%}else{%> 
+                
+
+            <h3>No Orders Exits</h3>
+
+            <%}%>   
+          <div class="checkout_btn_inner float-right">
+            <a class="btn_1" href="/">Continue Shopping</a>            
+          </div>
+        </div> 
+
+        
+      </div>
+  </section>
+  <!--================End Cart Area =================-->
+
+  <!--::footer_part start::-->
+  <footer class="footer_part">
+    <div class="container">
+      <div class="row justify-content-around">
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <!-- <h4>Top Products</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Managed Website</a></li>
+              <li><a href="">Manage Reputation</a></li>
+              <li><a href="">Power Tools</a></li>
+              <li><a href="">Marketing Service</a></li>
+            </ul> -->
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <!-- <h4>Quick Links</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Jobs</a></li>
+              <li><a href="">Brand Assets</a></li>
+              <li><a href="">Investor Relations</a></li>
+              <li><a href="">Terms of Service</a></li>
+            </ul> -->
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <!-- <h4>Features</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Jobs</a></li>
+              <li><a href="">Brand Assets</a></li>
+              <li><a href="">Investor Relations</a></li>
+              <li><a href="">Terms of Service</a></li>
+            </ul> -->
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <!-- <h4>Resources</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Guides</a></li>
+              <li><a href="">Research</a></li>
+              <li><a href="">Experts</a></li>
+              <li><a href="">Agencies</a></li>
+            </ul> -->
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="single_footer_part">
+            <!-- <h4>Newsletter</h4>
+            <p>Heaven fruitful doesn't over lesser in days. Appear creeping
+            </p>
+            <div id="mc_embed_signup">
+              <form target="_blank"
+                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                method="get" class="subscribe_form relative mail_part">
+                <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
+                  class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
+                  onblur="this.placeholder = ' Email Address '">
+                <button type="submit" name="submit" id="newsletter-submit"
+                  class="email_icon newsletter-submit button-contactForm">subscribe</button>
+                <div class="mt-10 info"></div>
+              </form>
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="copyright_part">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="copyright_text">
+              <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="footer_icon social_icon">
+              <ul class="list-unstyled">
+                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--::footer_part end::-->
+
+  <%- include('../layouts/userLayout/userFooter') %> 
+
+  <script>
+    function cancelOrder(orderId,orderValue){
+      console.log(orderId,'OrderID', orderValue, 'order value');
+      fetch('/cancel_order',{
+        
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          orderId:orderId,
+          orderValue:orderValue
+        })
+      })
+      .then((res)=>res.json())
+      .then((res)=>window.location.reload()) 
+      .catch(error => console.error(error))
+
+      let button = document.querySelector('[onclick="cancelOrder(\''+orderId+'\')"]')
+      button.style.display = 'none'
+    }
+  </script>
+
+<script>
+  function returnOrder(orderId,orderValue,reason){
+    console.log(orderId,'OrderID');
+    fetch('/return_order',{
+      
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        orderId:orderId,
+        orderValue:orderValue,
+        orderCancelReason:reason
+      })
+    })
+    .then((res)=>res.json())
+    .then((res)=>window.location.reload())
+    .catch(error => console.error(error))
+
+    let button = document.querySelector('[onclick="cancelOrder(\''+orderId+'\')"]')
+    button.style.display = 'none'
+  }
+</script>
+
+<script>
+  function compareDates() {
+    var startDate = document.getElementById("startDate").value;
+    var endDate = document.getElementById("endDate").value;
+    
+    if(startDate >= endDate){
+      document.getElementById("dateError").innerHTML = "End date should be greater than start date";
+      document.getElementById("endDate").value = "";
+    } else {
+      document.getElementById("dateError").innerHTML = "";
+    }
+  }
+  </script>
+
+<script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#myTable').DataTable();
+  });
+</script>
+
+
+  
+  
+
+  

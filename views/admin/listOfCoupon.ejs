@@ -1,0 +1,139 @@
+<%- include('../layouts/adminLayout/adminheader') %>
+
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+<link href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.css" rel="stylesheet"/>
+  <style>
+    .dataTables_wrapper .sorting:after,
+    .dataTables_wrapper .sorting_asc:after,
+    .dataTables_wrapper .sorting_desc:after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 12px;
+      display: inline-block;
+      margin-left: 5px;
+      content: "\f0dc";
+    }
+
+    .dataTables_wrapper .sorting_asc:after {
+      content: "\f0de";
+    }
+
+    .dataTables_wrapper .sorting_desc:after {
+      content: "\f0dd";
+    }
+  </style>
+
+</head>
+
+<body>
+  <!--::header part start::-->
+  
+  <%- include('../layouts/adminLayout/adminNavBar') %>
+  
+  <!-- Header part end-->
+  <div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+
+  <div class="container">
+    <div class="input-group" style="justify-content: space-between;">
+      <div>
+      <h2>Coupon List</h2>
+    </div>
+    <!-- <div>  
+    <form action="" style="display: flex; justify-content: flex-end;"> 
+      <input type="text" placeholder="Search.." name="search" class="form-control">
+      <input type="submit" value="Search" class="genric-btn primary-border small">
+    
+    </form> 
+  </div> -->
+    
+  </div>
+    <div class="table">
+      <table class="table table-striped table-sm" id="myTable">
+        <thead>
+          <tr>
+            <th scope="col">Coupon Name</th>            
+            <th scope="col">Discount Percentage</th>
+            <th scope="col">Expiry Date</th>
+            <th scope="col">Status</th>             
+            
+           
+
+          </tr>
+        </thead>
+        <tbody>
+          <% if(coupon.length > 0){%>
+            <%for(let i=0; i < coupon.length; i++){%>
+              <tr>
+                <td>
+                  <%= coupon[i].couponName %>
+                </td>                
+                <td>
+                  <%= coupon[i].percentage %>
+                </td>
+                <td>
+                  <%= coupon[i].expiryDate %>
+                </td>       
+                
+                <td>
+                  <%if(coupon[i].active){%>
+
+                    <button type="button" class="btn btn-success" onclick="block('<%= coupon[i]._id %>')">Active</button>
+
+                    <%}else{%>
+
+                      <button type="button" class="btn btn-danger" onclick="block('<%= coupon[i]._id %>')">Deactive</button>                   
+                    
+                    <%}%>
+                  
+
+                </td>
+
+              </tr>
+              <%}%>
+                <%}else{%>
+                  <tr>
+                    <td>Coupon Not Found</td>
+                  </tr>
+
+                  <%}%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function block (data){
+      console.log(data, 'id');
+      fetch("/admin/deactivate_coupon",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          id:data
+        })
+      })
+      .then((res)=>res.json())
+      .then((res) => window.location.reload())
+      .catch(error => console.error(error))
+  }
+    
+  </script>
+
+<%- include('../layouts/adminLayout/adminfooter') %>
+
+<script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.js"></script>
+        <script>
+          $(document).ready(function () {
+            $('#myTable').DataTable();
+          });
+        </script>
+
+  

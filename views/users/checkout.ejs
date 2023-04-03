@@ -1,0 +1,467 @@
+<%- include('../layouts/userLayout/userHeader') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+  </head>
+
+  <body>
+    <!--::header part start::-->
+    <%- include('../layouts/userLayout/userNavBarLogin') %>
+      <!-- Header part end-->
+
+      <!--================Home Banner Area =================-->
+      <!-- breadcrumb start-->
+      <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="breadcrumb_iner">
+                <div class="breadcrumb_iner_item">
+                  <h2>Product Checkout</h2>
+                  <p>Home <span>-</span> Shop Single</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- breadcrumb start-->
+
+      <!--================Checkout Area =================-->
+
+      <section class="checkout_area padding_top">
+        <div class="container">
+          <div class="cupon_area">
+            <div class="check_title">
+              <% if(typeof message !=='undefined' ){ %>
+                <p style="color: rgb(169, 6, 6);">
+                  <%=message%>
+                    <% } %>
+                      <h2>
+                        Have a coupon?
+                      </h2>
+            </div>
+            <input type="text" id="coupon" name="coupon" placeholder="Enter coupon code" />
+            <%if(cartId.couponApplied){%>
+
+              <button class="tp_btn" onclick="removeCoupon('<%= cartId._id %>','<%= cartId.userId %>')">Remove Coupon</button>
+
+              <%}else{%>
+
+
+            <button class="tp_btn" onclick="applyCoupon('<%= cartId._id %>')">Apply Coupon</button>
+            <%}%>
+          </div>
+          <div class="billing_details">
+            <div class="row">
+              <div class="col-lg-8">
+                <h3>Select Address</h3>
+                <form class="row contact_form" action="" method="post">
+                  <div class="album py-5 bg-light">
+                    <div class="container">
+
+
+                      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <%if(address.length> 0){%>
+                          <% for(i=0;i < address.length; i++){ %>
+                            <div class="col">
+                              <div class="card shadow-sm">
+
+                                <div class="card-body">
+                                  <label>
+
+                                    <input type="radio" id="address" name="address" value="
+                            <%= address[i].firstName %> <%= address[i].lastName %>,                            
+                            <%= address[i].company %>, 
+                            <%= address[i].addLine1 %>,
+                            <%= address[i].addLine2 %>,
+                            <%= address[i].city %>, <%= address[i].district %>, <%= address[i].state %>,
+                            <%= address[i].country %>, <%= address[i].pincode %>. 
+                            Mobile: <%= address[i].phone %>." required>
+
+                                    <%= address[i].firstName %> <span></span>
+                                      <%= address[i].lastName %>,<br>
+                                        <%= address[i].phone %>,<br>
+                                          <%= address[i].company %>,<br>
+                                            <%= address[i].addLine1 %>,<br>
+                                              <%= address[i].addLine2 %>,<br>
+                                                <%= address[i].city %>,
+                                                  <%= address[i].district %>,
+                                                    <%= address[i].state %>,
+                                                      <%= address[i].country %>,<br>
+                                                        <%= address[i].pincode %>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <%}%>
+                              <%}else{%>
+                                <div>
+                                  <p>No Address Found. Please add Address.</p>
+                                </div>
+                                <%}%>
+                      </div>
+                      <br>
+                      <br>
+                      <h3>Choose Payment Method</h3>
+                      <label>
+                        <input type="radio" name="payment" value="COD" required>
+                        Cash on Delivery
+                      </label><br><br>
+                      <label>
+                        <input type="radio" name="payment" value="online" required>
+                        Online Payment
+                      </label><br><br>
+                      <%if(cartId.couponApplied){%>
+                        <%if(userData.wallet > total){%>
+
+                      <label>
+                        <input type="radio" name="payment" value="wallet" required>
+                        Wallet Balance - <%= userData.wallet %>
+                      </label><br><br>
+                      <%}}else{%>
+                        
+                        <%if(userData.wallet > total[0].total){%>
+
+                          <label>
+                            <input type="radio" name="payment" value="wallet" required>
+                            Wallet Balance - <%= userData.wallet %>
+                          </label><br><br>
+
+
+
+                        <%}}%>
+
+                      <br>
+                      <br>
+                      <br>
+
+                      <button type="submit" class="btn_3" id="proceedBtn">
+                        <a style="color: white;">Proceed to Payment</a>
+                      </button>
+
+
+                    </div>
+                  </div>
+
+
+                </form>
+                <button type="" class="btn_3">
+                  <a href="/add_address" style="color: white;">Add New Address</a>
+                </button>
+
+
+
+              </div>
+              <div class="col-lg-4">
+                <div class="order_box">
+                  <h2>Your Order</h2>
+                  <ul class="list">
+                    <li>
+                      <a href="#">Product
+                        <span>Total</span>
+                      </a>
+                    </li>
+                    <%for(i=0;i < findProducts.length; i++){%>
+                      <li>
+                        <a href="#">
+                          <%= findProducts[i].items[0].productName %>
+                            <span class="middle"></span>
+                            <span class="last">Rs. <%= findProducts[i].items[0].price %></span>
+                        </a>
+                      </li>
+                      <%}%>
+
+                        <!-- <li>
+                  <a href="#">Fresh Tomatoes
+                    <span class="middle">x 02</span>
+                    <span class="last">$720.00</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">Fresh Brocoli
+                    <span class="middle">x 02</span>
+                    <span class="last">$720.00</span>
+                  </a>
+                </li> -->
+
+                  </ul>
+                  <ul class="list list_2">
+                    <li>
+                      <%if(cartId.couponApplied){%>
+
+                        <a href="#">Subtotal
+                          <span>Rs. <%= totalSub[0].total %></span>
+                        </a>
+
+                        <%}else{%>
+                      <a href="#">Subtotal
+                        <span>Rs. <%= total[0].total %></span>
+                      </a>
+                      <%}%>
+                    </li>
+                    <li>
+                      <%if(cartId.couponApplied){%>
+                        <a href="#">Discount
+                          <span>Rs. -<%= discount %></span>
+                        </a>
+
+
+                        <%}else{%>
+                      <a href="#">Discount
+                        <span>Rs. 0</span>
+                      </a>
+                      <%}%>
+                    </li>
+                    <li>
+                      <%if(cartId.couponApplied){%>
+                        <a href="#">Total
+                          <input type="hidden" id="total" value="<%= total %>">
+                          <span>Rs. <%= total %></span>
+                        </a>
+
+
+                        <%}else{%>
+                      <a href="#">Total
+                        <input type="hidden" id="total" value="<%= total[0].total %>">
+                        <span>Rs. <%= total[0].total %></span>
+                      </a>
+                      <%}%>
+                    </li>
+                  </ul>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--================End Checkout Area =================-->
+
+      <!--::footer_part start::-->
+     
+      <!--::footer_part end::-->
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+      
+      <script>
+        let total = Number(document.getElementById('total').value)
+        const addressSelected = document.getElementById('address').value
+        console.log(addressSelected);
+
+        console.log(total, 'here is total');
+
+        
+
+        const radioButtons = document.getElementsByName('payment');
+        
+
+        radioButtons.forEach(radioButton => {
+          radioButton.addEventListener('change', (event) => {
+            if (event.target.value === 'COD') {
+
+              document.getElementById('proceedBtn').disabled = false;
+              console.log('Cash on Delivery');
+
+            } else if(event.target.value === 'wallet'){
+
+              document.getElementById('proceedBtn').disabled = false;
+              console.log('Wallet');
+
+            } else {
+
+              document.getElementById('proceedBtn').disabled = false;
+
+              var orderId;
+              $(document).ready(function () {
+
+                var settings = {
+                  url: "/create/orderId",
+                  method: "POST",
+                  timeout: 0,
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  data: JSON.stringify({
+                    amount: total * 100, //CHANGE THE AMOUNT AS NEEDED
+                  }),
+                };
+
+                //creates new orderId everytime
+                $.ajax(settings).done(function (response) {
+                  orderId = response.orderId;
+                  console.log(orderId);
+
+                });
+              })
+
+
+
+              document.getElementById("proceedBtn").onclick = function (e) {
+
+                var options = {
+                  key: "rzp_test_9x15AAY6ipzSpQ", // Enter the Key ID generated from the Dashboard
+                  amount: total * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                  currency: "INR",
+                  name: "Arnoz",
+                  description: "Premium Furnitures",
+                  image: "",
+                  order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                  handler: function (response) {
+                    //alert(response.razorpay_payment_id);
+                    //alert(response.razorpay_order_id);
+                    //alert(response.razorpay_signature);
+                    var settings = {
+                      url: "/api/payment/verify",
+                      method: "POST",
+                      timeout: 0,
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      data: JSON.stringify({ response }),
+                    };
+                    console.log(response)
+                    $.ajax(settings).done(function (response) {
+                      placeOrder(orderId,);
+                      //alert(JSON.stringify(response));
+                    });
+                  },
+
+                  theme: {
+                    color: "#b73100",
+                  },
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.on("payment.failed", function (response) {
+                  // alert(response.error.code);
+                  // alert(response.error.description);
+                  // alert(response.error.source);
+                  // alert(response.error.step);
+                  // alert(response.error.reason);
+                  // alert(response.error.metadata.order_id);
+                  // alert(response.error.metadata.payment_id);
+                });
+                rzp1.open();
+                e.preventDefault();
+              };
+            }
+          });
+        }); 
+      </script>  
+
+      
+      
+
+
+
+      <script>
+        function placeOrder(orderId) {
+
+          let address = (document.getElementById('address').value)
+          fetch('/checkout', {
+            method: "POST",
+            headers: {
+
+              "Content-Type": "application/json"
+
+            },
+            body: JSON.stringify({
+              payment: orderId,
+              address: address
+            })
+          })
+
+            .then((res) => res.json())
+            .then((res) => {
+              if (res.redirectUrl) {
+                window.location.href = res.redirectUrl;
+              }
+            })
+            .catch(error => console.error(error))
+
+        }
+
+      </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
+
+      <script>
+
+        function applyCoupon(cartId) {
+          let coupon = (document.getElementById('coupon').value)
+          console.log(coupon, 'coupon');
+          console.log(cartId, 'cartId');
+
+          fetch('/apply_coupon', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              couponName: coupon,
+              cartId: cartId
+            })
+          })
+
+          .then((res) => res.json())
+      .then((res) => {
+        console.log(res)
+        if (res === 'success') {
+          Swal.fire({
+            title: 'Coupon Applied',
+            text: 'Coupon has been applied successfully',
+            icon: 'success'
+          }).then(() => {
+            window.location.reload();
+          });
+        } else if(res === 'User Already Used the Coupon') {
+          Swal.fire({
+            title: 'Coupon Error',
+            text: 'User Already Used the Coupon',
+            icon: 'error'
+          });
+        } else if(res === 'Coupon Expired') {
+          Swal.fire({
+            title: 'Coupon Error',
+            text: 'Coupon Expired',
+            icon: 'error'
+          });
+        } else if(res === 'Invalid Coupon') {
+          Swal.fire({
+            title: 'Coupon Error',
+            text: 'Invalid Coupon. Please Verify Coupon Name.',
+            icon: 'error'
+          });
+        }
+      })
+      .catch(error => console.error(error))
+        }
+
+      </script>
+
+      <script>
+        function removeCoupon(cartId,userId) {
+          // let coupon = (document.getElementById('coupon').value)
+          // console.log(coupon, 'coupon');
+          console.log(cartId, 'cartId');
+
+          fetch('/remove_coupon', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              userId: userId,
+              cartId: cartId
+            })
+          })
+
+            .then((res) => res.json())            
+            .then((res) => window.location.reload())
+            .catch(error => console.error(error))
+        }
+      </script>
+
+<%- include('../layouts/userLayout/userFooter') %>

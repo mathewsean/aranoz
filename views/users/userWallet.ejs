@@ -1,0 +1,368 @@
+
+<%- include('../layouts/userLayout/userHeader') %>
+
+</head>
+
+<body>
+  <!--::header part start::-->
+  <%- include('../layouts/userLayout/userNavBarLogin') %>
+  <!-- Header part end-->
+
+
+  <!--================Home Banner Area =================-->
+  <!-- breadcrumb start-->
+  <section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Your Wallet Transaction</h2>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb start-->
+
+  <!--================Cart Area =================-->
+
+       <%
+          if(typeof message !== 'undefined'){
+          %><p style="color: rgb(186, 13, 13);"><%=message%><%
+          }
+        %>
+  <section class="cart_area padding_top">
+    <div class="container">
+      <div class="cart_inner">
+        <div class="table-responsive">
+          <table class="table">
+            <h3>Wallet Balance: Rs. <%= userData.wallet%></h3>
+            <br>
+            <br>
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Order Number</th>
+                <th scope="col">Address</th>
+                
+                <th scope="col">Total Amount</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <% if(order.length > 0){ %>
+              <%for(let i=order.length-1; i >= 0; i-- ){%>
+              <tr>
+                
+                <td>
+                  <h5><%= order[i].createdAt %></h5>
+                </td>
+                <td>
+                  <h5><%= order[i]._id %></h5>
+                </td>                 
+                <td>
+                  <h5><%= order[i].address[0] %></h5>
+                </td>
+                
+                <td>
+                  <h5>Rs.<%= order[i].total %></h5>
+                </td>
+                <td>
+                  <h5><%= order[i].orderStatus %></h5>
+                </td>               
+                
+                <td>
+                  <button type="button" value="" class="btn_3" >
+                    <a href="/user_order_detail?id=<%=order[i]._id%>" style="color: white;">View</a> 
+                  </button>
+                </td>
+                <!-- <td>
+                  <% if(order[i].orderStatus !== "Cancelled" && order[i].orderStatus !== "Delivered" && order[i].orderStatus !== "Returned") {%>
+                  <button type="button" value="" class="btn_3" onclick="cancelOrder('<%=order[i]._id%>','<%= order[i].total %>')">
+                    Cancel 
+                  </button> 
+                  <% }else if(order[i].orderStatus == "Delivered"){ %>
+                  <button type="button" value="" class="btn_3" onclick="returnOrder('<%=order[i]._id%>','<%= order[i].total %>')">
+                    Return 
+                  </button>
+                  <%}%>
+                </td> -->
+              </tr>
+
+              <%}%>
+
+
+              <!-- <tr>
+                <td>
+                  <div class="media">
+                    <div class="d-flex">
+                      <img src="img/product/single-product/cart-1.jpg" alt="" />
+                    </div>
+                    <div class="media-body">
+                      <p>Minimalistic shop for multipurpose use</p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <h5>$360.00</h5>
+                </td>
+                <td>
+                  <div class="product_count">
+                     <input type="text" value="1" min="0" max="10" title="Quantity:"
+                      class="input-text qty input-number" />
+                    <button
+                      class="increase input-number-increment items-count" type="button">
+                      <i class="ti-angle-up"></i>
+                    </button>
+                    <button
+                      class="reduced input-number-decrement items-count" type="button">
+                      <i class="ti-angle-down"></i>
+                    </button> -->
+                    <!-- <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
+                    <input class="input-number" type="text" value="1" min="0" max="10">
+                    <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
+                  </div>
+                </td>
+                <td>
+                  <h5>$720.00</h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="media">
+                    <div class="d-flex">
+                      <img src="img/product/single-product/cart-1.jpg" alt="" />
+                    </div>
+                    <div class="media-body">
+                      <p>Minimalistic shop for multipurpose use</p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <h5>$360.00</h5>
+                </td>
+                <td>
+                  <div class="product_count">
+                    <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
+                    <input class="input-number" type="text" value="1" min="0" max="10">
+                    <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
+                  </div>
+                </td>
+                <td>
+                  <h5>$720.00</h5>
+                </td>
+              </tr> --> 
+
+
+              
+              
+              <!-- <tr class="shipping_area">
+                <td></td>
+                <td></td>
+                <td>
+                  <h5>Shipping</h5>
+                </td>
+                <td>
+                  <div class="shipping_box">
+                    <ul class="list">
+                      <li>
+                        <a href="#">Flat Rate: $5.00</a>
+                      </li>
+                      <li>
+                        <a href="#">Free Shipping</a>
+                      </li>
+                      <li>
+                        <a href="#">Flat Rate: $10.00</a>
+                      </li>
+                      <li class="active">
+                        <a href="#">Local Delivery: $2.00</a>
+                      </li>
+                    </ul>
+                    <h6>
+                      Calculate Shipping
+                      <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </h6>
+                    <select class="shipping_select">
+                      <option value="1">Bangladesh</option>
+                      <option value="2">India</option>
+                      <option value="4">Pakistan</option>
+                    </select>
+                    <select class="shipping_select section_bg">
+                      <option value="1">Select a State</option>
+                      <option value="2">Select a State</option>
+                      <option value="4">Select a State</option>
+                    </select> -->
+                    <!-- <input type="text" placeholder="Postcode/Zipcode" /> -->
+                    
+                  </div>
+                </td>
+              </tr> 
+            </tbody>
+          </table>
+          <%}else{%> 
+                
+
+            <h4>No Orders Exits</h4>
+
+            <%}%>
+          <div class="checkout_btn_inner float-right">
+            <a class="btn_1" href="/">Continue Shopping</a>            
+          </div>
+        </div> 
+      </div>
+  </section>
+  <!--================End Cart Area =================-->
+
+  <!--::footer_part start::-->
+  <footer class="footer_part">
+    <div class="container">
+      <div class="row justify-content-around">
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <h4>Top Products</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Managed Website</a></li>
+              <li><a href="">Manage Reputation</a></li>
+              <li><a href="">Power Tools</a></li>
+              <li><a href="">Marketing Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <h4>Quick Links</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Jobs</a></li>
+              <li><a href="">Brand Assets</a></li>
+              <li><a href="">Investor Relations</a></li>
+              <li><a href="">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <h4>Features</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Jobs</a></li>
+              <li><a href="">Brand Assets</a></li>
+              <li><a href="">Investor Relations</a></li>
+              <li><a href="">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <h4>Resources</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Guides</a></li>
+              <li><a href="">Research</a></li>
+              <li><a href="">Experts</a></li>
+              <li><a href="">Agencies</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="single_footer_part">
+            <h4>Newsletter</h4>
+            <p>Heaven fruitful doesn't over lesser in days. Appear creeping
+            </p>
+            <div id="mc_embed_signup">
+              <form target="_blank"
+                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                method="get" class="subscribe_form relative mail_part">
+                <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
+                  class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
+                  onblur="this.placeholder = ' Email Address '">
+                <button type="submit" name="submit" id="newsletter-submit"
+                  class="email_icon newsletter-submit button-contactForm">subscribe</button>
+                <div class="mt-10 info"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="copyright_part">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="copyright_text">
+              <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="footer_icon social_icon">
+              <ul class="list-unstyled">
+                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--::footer_part end::-->
+
+  <%- include('../layouts/userLayout/userFooter') %> 
+
+  <script>
+    function cancelOrder(orderId,orderValue){
+      console.log(orderId,'OrderID', orderValue, 'order value');
+      fetch('/cancel_order',{
+        
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          orderId:orderId,
+          orderValue:orderValue
+        })
+      })
+      .then((res)=>res.json())
+      .then((res)=>window.location.reload()) 
+      .catch(error => console.error(error))
+
+      let button = document.querySelector('[onclick="cancelOrder(\''+orderId+'\')"]')
+      button.style.display = 'none'
+    }
+  </script>
+
+<script>
+  function returnOrder(orderId,orderValue){
+    console.log(orderId,'OrderID');
+    fetch('/return_order',{
+      
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        orderId:orderId,
+        orderValue:orderValue
+      })
+    })
+    .then((res)=>res.json())
+    .then((res)=>window.location.reload())
+    .catch(error => console.error(error))
+
+    let button = document.querySelector('[onclick="cancelOrder(\''+orderId+'\')"]')
+    button.style.display = 'none'
+  }
+</script>
+
+
+  
+  
+
+  

@@ -1,0 +1,122 @@
+<%- include('../layouts/adminLayout/adminheader') %>
+
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+<link href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.css" rel="stylesheet"/>
+  <style>
+    .dataTables_wrapper .sorting:after,
+    .dataTables_wrapper .sorting_asc:after,
+    .dataTables_wrapper .sorting_desc:after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 12px;
+      display: inline-block;
+      margin-left: 5px;
+      content: "\f0dc";
+    }
+
+    .dataTables_wrapper .sorting_asc:after {
+      content: "\f0de";
+    }
+
+    .dataTables_wrapper .sorting_desc:after {
+      content: "\f0dd";
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <!--::header part start::-->
+  
+  <%- include('../layouts/adminLayout/adminNavBar') %>
+  
+  <!-- Header part end-->
+  <div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+
+  <div class="container">
+    <h2>Inventory</h2>
+    <div class="table-responsive">
+      <table class="table table-striped table-sm" id="myTable">
+        <thead> 
+          <tr>
+            <th scope="col">Product Name</th>         
+            
+            <th scope="col">Stock</th>            
+            
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <% if(products.length > 0){%>
+            <%for(let i=0; i < products.length; i++){%>
+              <tr>
+                <td>
+                  <%= products[i].productName %>
+                </td>                
+                
+                
+                <td>
+                  <%= products[i].stock %>
+                </td>                
+
+                
+                <td>
+                  <button type="button" class="btn btn-primary">
+                  <a href="/admin/add_inventory?id=<%=products[i]._id%>" style="color:white;">Add Quantity</a>
+                </button> 
+
+                </td>
+                
+                
+              </tr>
+              <%}%>
+                <%}else{%>
+                  <tr>
+                    <td>Product Not Found</td>
+                  </tr>
+
+                  <%}%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function block (data){
+      console.log(data, 'id');
+      fetch("/admin/block_product",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          id:data
+        })
+      })
+      .then((res)=>res.json())
+      .then((res) => window.location.reload())
+      .catch(error => console.error(error))
+  }
+    
+  </script>
+
+<%- include('../layouts/adminLayout/adminfooter') %>
+
+<script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.js"></script>
+        <script>
+          $(document).ready(function () {
+            $('#myTable').DataTable();
+          });
+        </script>
+
+
+  

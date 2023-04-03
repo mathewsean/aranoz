@@ -1,0 +1,56 @@
+<%- include('../layouts/adminLayout/adminheader') %>
+
+</head>
+
+<body>
+    
+        <!--::header part start::-->
+        <%- include('../layouts/adminLayout/adminNavBar') %>
+        <!-- Header part end-->
+    
+    
+        <!-- breadcrumb start-->
+        
+        <!-- breadcrumb start-->
+    
+        <!--================login_part Area =================-->
+        <section class="login_part padding_top">
+            <div class="container">
+                <div class="row align-items-center">
+                    
+                    <div class="col-lg-6 col-md-6">
+                        <div class="login_part_form">
+                            <div class="login_part_form_iner">
+                                <h3>Please Add New Category</h3>
+                                    <%
+          if(typeof message !== 'undefined'){
+          %><p style="color: black;"><%=message%><%
+          }
+        %>
+                                <form class="row contact_form" method="post">
+                                    <div class="col-md-12 form-group p_star">
+                                        <input type="text" class="form-control" id="categoryname" name="categoryname" value=""
+                                            placeholder="Enter Category Name">
+                                    </div>
+                                    
+                                    <div class="col-md-12 form-group">
+                                        
+                                        <button type="submit" value="submit" id='registerButton'class="btn_3">
+                                            Submit
+                                        </button>                                        
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================login_part end =================-->
+    
+        <!--::footer_part start::-->
+        
+        <!--::footer_part end::-->
+        
+        <%- include('../layouts/adminLayout/adminfooter') %>  

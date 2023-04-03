@@ -1,0 +1,93 @@
+<%- include('../layouts/userLayout/userHeader') %>
+
+
+
+</head>
+<body>
+  <!--::header part start::-->
+  <%- include('../layouts/userLayout/userNavBarLogin') %>
+  <!-- Header part end-->
+
+  <!--================Home Banner Area =================-->
+  
+
+  <!--================Checkout Area =================-->
+  <section class="checkout_area padding_top">
+    <div class="container">
+      
+     
+      <div class="billing_details">
+        <div class="row">
+          <div class="col-lg-8">
+            <h3>Add Address</h3>
+            <%
+          if(typeof message !== 'undefined'){
+          %><p style="color: rgb(236, 11, 11);"><%=message%><%
+          }
+        %>
+            <form class="row contact_form" action="" method="post" >
+              <div class="col-md-6 form-group p_star">
+                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name"/>                
+              </div>
+              <div class="col-md-6 form-group p_star">
+                <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name"/>
+                
+              </div>
+              <div class="col-md-12 form-group">
+                <input type="text" class="form-control" id="company" name="company" placeholder="Company name" />
+              </div>
+              <div class="col-md-6 form-group p_star">
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Mobile Number"/>
+                
+              </div>
+              
+              <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="country" name="country" placeholder="Country"/>
+                
+              </div>
+              <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="addLine1" name="addLine1" placeholder="Address line 1"/>
+                
+              </div>
+              <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="addLine2" name="addLine2" placeholder="Address line 2"/>
+                
+              </div>
+              <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="city" name="city" placeholder="Town/City"/>
+                
+              </div>
+              <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="district" name="district" placeholder="District"/>
+                
+              </div>
+              <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="state" name="state" placeholder="State"/>
+                
+              </div>
+
+              <div class="col-md-12 form-group">
+                <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode/ZIP" />
+              </div>
+
+              <div class="col-md-12 form-group">
+                                        
+                <button type="submit" value="submit" id='registerButton'class="btn_3">
+                    Save
+                </button>                                        
+            </div>            
+
+            </form>
+          </div>          
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================End Checkout Area =================-->
+
+  <!--::footer_part start::-->
+  
+  </footer>
+  <!--::footer_part end::-->
+
+  <%- include('../layouts/userLayout/userFooter') %> 

@@ -1,0 +1,168 @@
+<%- include('../layouts/userLayout/userHeader') %>
+
+
+</head>
+
+<body>
+    
+        <!--::header part start::-->
+        <%- include('../layouts/userLayout/userNavBarLogin') %>
+        <!-- Header part end-->
+    
+    
+        <!-- breadcrumb start-->
+        
+    
+        <!--================login_part Area =================-->
+        <section class="login_part padding_top">
+            <div class="container">
+                <div class="row align-items-center">
+                    
+                    <div class="col-lg-6 col-md-6">
+                        <div class="login_part_form">
+                            <div class="login_part_form_iner">
+                                <h3>Please Edit</h3>
+                                    <%
+          if(typeof message !== 'undefined'){
+          %><p style="color: black;"><%=message%><%
+          }
+        %>
+                                <form class="row contact_form" method="post"> 
+                                    <span id="form-error" style="color: rgb(194, 5, 5)"></span> 
+                                    <div class="col-md-12 form-group p_star">
+                                        <input type="text" class="form-control" id="name" name="name" value="<%= userData.name %>"
+                                            placeholder="Name">
+                                    </div>
+                                    <span id="name-error"></span>
+                                    <div class="col-md-12 form-group p_star">
+                                        <input type="text" class="form-control" id="email" name="email" value="<%= userData.email %>"
+                                            placeholder="Email">
+                                    </div>
+                                    <span id="email-error"></span>
+                                    <div class="col-md-12 form-group p_star">
+                                        <input type="text" class="form-control" id="mobile" name="mobile" value="<%= userData.mobile %>"
+                                            placeholder="Mobile Number">
+                                    </div>
+                                    <span id="phoneNumber-error"></span>
+
+                                    
+                                    
+                                    <div class="col-md-12 form-group">
+                                        
+                                        <button type="submit" value="submit" id='registerButton'class="btn_3">
+                                            Save
+                                        </button>                                        
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================login_part end =================-->
+    
+        <!--::footer_part start::-->
+
+        <script>
+            const form = document.querySelector("form")
+            const name = document.querySelector("#name")
+            const email = document.querySelector("#email")
+            const phoneNumber = document.querySelector("#mobile")
+            const password = document.querySelector("#password")
+            
+            const nameError = document.getElementById('name-error')
+            const emailError = document.getElementById('email-error')
+            const phoneNumberError = document.getElementById('phoneNumber-error')
+            const passwordError = document.getElementById('password-error')
+            const formError = document.getElementById('form-error')
+            
+            
+            const namePattern = /^[A-Z][a-z]+(\s[A-Z][a-z]{0,25}){0,3}$/
+            const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+            const phoneNumberPattern = /^\d{10}$/
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-!@#\$%\^&\*])[a-zA-Z\d!-@#\$%\^&\*]{8,20}$/
+            
+            
+            
+            let passwordFirstInput = false
+            
+            const nameFunction =  () => {
+              if (!namePattern.test(name.value)) {
+                nameError.textContent = 'Invalid name'
+                return false
+              } else {
+                nameError.textContent = ''
+                return true
+              }
+            }
+            const emailFunction = () => {
+              if (!emailPattern.test(email.value)) {
+                emailError.textContent = 'Invalid email'
+                return false
+              } else {
+                emailError.textContent = ''
+                return true
+              }
+            }
+            const phoneNumberFunction = () => {
+              if(!phoneNumberPattern.test(phoneNumber.value)){
+                phoneNumberError.textContent = 'Invalid phone number'
+                return false
+              } else {
+                phoneNumberError.textContent = ''
+                return true
+              }
+            }
+            const passwordFunction =  () => {
+              if(!passwordPattern.test(password.value)){
+                passwordError.textContent = 'Not a strong password'
+                return false
+              } else {
+                passwordError.textContent = ''
+                return true
+              }
+            }
+            
+            name.addEventListener('input', nameFunction)
+            email.addEventListener('input', emailFunction)
+            phoneNumber.addEventListener('blur', phoneNumberFunction)
+            phoneNumber.addEventListener('input', () => {
+              if(phoneNumber.value.length > 5) {
+                phoneNumberFunction()
+              }
+            })
+            password.addEventListener('input', passwordFunction)
+            password.addEventListener('input', () => {
+              if(passwordFirstInput) {
+                passwordConfirmationFunction()
+              }
+            })
+            
+            let isFormValid = false
+            
+            const formFunctions = [
+              nameFunction,
+              emailFunction,
+              phoneNumberFunction,
+              passwordFunction
+              ]
+            
+            document.getElementById("registerButton").addEventListener("click", (event) => {
+              if(formFunctions.every(fn => fn())){
+                isFormValid = true
+              }
+              if(!isFormValid) {
+                event.preventDefault();
+                
+                formError.textContent = 'Invalid Form. Please enter details.' 
+
+              } else {
+                form.submit();
+              }
+            });
+            
+            </script>
+        <!--::footer_part end::-->
+        <%- include('../layouts/userLayout/userFooter') %> 

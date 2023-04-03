@@ -1,0 +1,117 @@
+<%- include('../layouts/adminLayout/adminheader') %>
+
+</head>
+
+<body>
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo"> </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Home</a>
+                                </li>                                
+                                
+                                
+                                
+                                
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Contact</a>
+                                </li>
+                                
+                                
+                            </ul>
+                        </div>
+                        <div class="hearer_icon d-flex">
+                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
+                            
+                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="single_product">
+    
+                                    </div>
+                                </div> -->
+                                
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="search_input" id="search_input_box">
+            <div class="container ">
+                <form class="d-flex justify-content-between search-inner">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                    <button type="submit" class="btn"></button>
+                    <span class="ti-close" id="close_search" title="Close Search"></span>
+                </form>
+            </div>
+        </div>
+    </header>
+    <!-- Header part end-->
+
+
+    <!-- breadcrumb start-->
+   
+    <!-- breadcrumb start-->
+
+    <!--================login_part Area =================-->
+    <section class="login_part padding_top">
+        <div class="container">
+            <div class="row align-items-center">
+                
+                <div class="col-lg-6 col-md-6">
+                    <div class="login_part_form">
+                        <div class="login_part_form_iner">
+                            <h3>Welcome to Admin Panel ! <br>
+                                Please Sign in now</h3>
+                                <%
+          if(typeof message !== 'undefined'){
+          %><p style="color: rgb(245, 9, 9);"><%=message%><%
+          }
+        %>
+                            <form class="row contact_form" method="post">
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="email" name="email" value="admin@gmail.com"
+                                        placeholder="Enter Email">
+                                </div>
+                                
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="password" class="form-control" id="password" name="password" value="Shone@5"
+                                        placeholder="Enter Password">
+                                </div>
+                                
+                                <div class="col-md-12 form-group">
+                                    <div class="creat_account d-flex align-items-center">
+                                        <input type="checkbox" id="f-option" name="selector">
+                                        <label for="f-option">Remember me</label>
+                                    </div>
+                                    <button type="submit" value="submit" id="registerButton" class="btn_3">
+                                        log in
+                                    </button>
+                                    <a class="lost_pass" href="#">forget password?</a>
+                                </div>
+                            </form>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================login_part end =================-->
+
+    <!--::footer_part start::-->
+    
+    <!--::footer_part end::-->
+
+    <%- include('../layouts/adminLayout/adminfooter') %> 
+    

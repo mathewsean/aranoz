@@ -1,0 +1,318 @@
+<%- include('../layouts/adminLayout/adminheader') %>
+
+    </head>
+
+    <body onload="loadChart(),orderStatusChart(),categorySalesChart()">
+        <!--::header part start::-->
+        <%- include('../layouts/adminLayout/adminNavBar') %>
+            <!-- Header part end-->
+
+
+            <!-- breadcrumb start-->
+
+            <!-- breadcrumb start-->
+
+            <!--================login_part Area =================-->
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                        <div class="position-sticky pt-3 sidebar-sticky">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="/admin/admin_dashboard">
+                                        <span data-feather="home" class="align-text-bottom"></span>
+                                        Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/order_list">
+                                        <span data-feather="file" class="align-text-bottom"></span>
+                                        Orders
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/product_list">
+                                        <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                                        Products
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/user_list">
+                                        <span data-feather="users" class="align-text-bottom"></span>
+                                        Customers
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/sales_report">
+                                        <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+                                        Sales Report
+                                    </a>
+                                </li>
+                                <!-- <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <span data-feather="layers" class="align-text-bottom"></span>
+                                        Integrations
+                                    </a>
+                                </li> -->
+                            </ul>
+
+                            <!-- <h6
+                                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                                <span>Saved reports</span>
+                                <a class="link-secondary" href="#" aria-label="Add a new report">
+                                    <span data-feather="plus-circle" class="align-text-bottom"></span>
+                                </a>
+                            </h6> -->
+                            <!-- <ul class="nav flex-column mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <span data-feather="file-text" class="align-text-bottom"></span>
+                                        Current month
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <span data-feather="file-text" class="align-text-bottom"></span>
+                                        Last quarter
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <span data-feather="file-text" class="align-text-bottom"></span>
+                                        Social engagement
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <span data-feather="file-text" class="align-text-bottom"></span>
+                                        Year-end sale
+                                    </a>
+                                </li>
+                            </ul> -->
+                        </div>
+                    </nav>
+
+                    
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div
+                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Sales</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <!-- <div class="btn-group me-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                                    <span data-feather="calendar" class="align-text-bottom"></span>
+                                    This week
+                                </button> -->
+                            </div>
+                        </div>
+
+                        <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+
+
+                    </main>
+                    
+                    <div class="row">
+                        
+                        <main class="col-md-2">
+                            <!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h1 class="h2">Sales</h1>
+                                <div class="btn-toolbar mb-2 mb-md-0">
+                                </div>
+                            </div>
+                            <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+                        </main>
+                        <main class="col-md-5">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h1 class="h4">Order Status</h1>
+                                <div class="btn-toolbar mb-2 mb-md-0">
+                                </div>
+                            </div>
+                            <canvas class="my-4 w-100" id="orderChart" width="900" height="380"></canvas>
+                        </main>
+                        <main class="col-md-5">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h1 class="h4">Category Wise Sale</h1>
+                                <div class="btn-toolbar mb-2 mb-md-0">
+                                </div>
+                            </div>
+                            <canvas class="my-4 w-100" id="categoryChart" width="900" height="380"></canvas>
+                        </main>
+                    </div>
+                    
+                </div>
+            </div>
+            
+
+
+            <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+                crossorigin="anonymous"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+                integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
+                integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
+                crossorigin="anonymous"></script>
+            <script src="dashboard.js"></script>
+
+
+            <!--================login_part end =================-->
+
+            <!--::footer_part start::-->
+
+            <!--::footer_part end::-->
+
+
+            <%- include('../layouts/adminLayout/adminfooter') %>
+
+                <script>
+                    function loadChart() {
+                        fetch('/admin/chart')
+                            .then(res => res.json())
+                            .then(monthlySales => {
+                                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+                                const labels = monthlySales.map(sale => monthNames[sale._id.month - 1]);
+                                const data = monthlySales.map(sale => sale.totalSales);
+
+                                let ctx = document.getElementById('myChart').getContext('2d');
+
+                                let myChart = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [{
+                                            label: 'Monthly Sales',
+                                            data: data,
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                                'rgba(75, 192, 192, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(255, 159, 64, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                                'rgba(75, 192, 192, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true
+                                                }
+                                            }]
+                                        }
+                                    }
+                                });
+                            })
+                            .catch(error => console.error(error))
+                    }
+
+
+
+                </script>
+
+                <script>
+                    const ctx = document.getElementById('orderChart').getContext('2d');
+
+                    const orderStatusChart = async () => {
+                        const response = await fetch('/admin/chart_order_status');
+                        const data = await response.json();
+                        const labels = data.map(item => item._id);
+                        const counts = data.map(item => item.count);
+                        const chartData = {
+                            labels: labels,
+                            datasets: [{
+                                data: counts,
+                                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8bc34a', '#e91e63', '#795548'],
+                            }],
+                        };
+                        const chartOptions = {
+                            responsive: true,
+                        };
+                        new Chart(ctx, {
+                            type: 'pie',
+                            data: chartData,
+                            options: chartOptions,
+                        });
+                    };
+
+                    orderStatusChart();
+                </script>
+
+                <script>
+
+                    function categorySalesChart() {
+                        fetch('/admin/chart_category_sales')
+                            .then(response => response.json())
+                            .then(data => {
+                                const labels = data.map(item => item.category);
+                                const sales = data.map(item => item.sales);
+                                const backgroundColors = generateRandomColors(labels.length);
+
+                                const ctx = document.getElementById('categoryChart').getContext('2d');
+                                const categoryChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [{
+                                            label: 'Sales',
+                                            data: sales,
+                                            backgroundColor: backgroundColors,
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true
+                                    }
+                                });
+                            })
+                            .catch(err => {
+                                console.error('Error getting category sales data: ', err);
+                            });
+                    }
+
+                    function generateRandomColors(numColors) {
+                        const colors = [];
+
+                        for (let i = 0; i < numColors; i++) {
+                            const r = Math.floor(Math.random() * 255);
+                            const g = Math.floor(Math.random() * 255);
+                            const b = Math.floor(Math.random() * 255);
+                            colors.push(`rgba(${r}, ${g}, ${b}, 0.8)`);
+                        }
+
+                        return colors;
+                    }
+                </script>

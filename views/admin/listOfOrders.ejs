@@ -1,0 +1,175 @@
+<%- include('../layouts/adminLayout/adminheader') %>
+
+  <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+  <link href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.css" rel="stylesheet"/>
+  <style>
+    .dataTables_wrapper .sorting:after,
+    .dataTables_wrapper .sorting_asc:after,
+    .dataTables_wrapper .sorting_desc:after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 12px;
+      display: inline-block;
+      margin-left: 5px;
+      content: "\f0dc";
+    }
+
+    .dataTables_wrapper .sorting_asc:after {
+      content: "\f0de";
+    }
+
+    .dataTables_wrapper .sorting_desc:after {
+      content: "\f0dd";
+    }
+  </style>
+
+
+  </head>
+
+  <body>
+    <!--::header part start::-->
+    <%- include('../layouts/adminLayout/adminNavBar') %>
+
+      <!-- Header part end-->
+      <div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+
+      <div class="container">
+        <h2>Order List</h2>
+        <div>
+          <form action="/admin/order_list" method="get">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate" oninput="compareDates()">
+
+            <button type="submit" class="genric-btn primary-border small">Filter</button>
+            <span id="dateError"></span>
+
+          </form>
+          <table class="table table-striped table-sm" id="myTable">
+            <thead>
+              <tr>
+                <th scope="col" data-sortable="true">Date</th>
+                <th scope="col" data-sortable="true">Order Id</th>
+                <th scope="col" data-sortable="true">Customer</th>
+                <th scope="col">Address</th>
+                <th scope="col" data-sortable="true">Total Amount</th>
+                <th scope="col" data-sortable="true">Order Status</th>
+                <th scope="col" data-sortable="true">Payment</th>
+                <th scope="col" data-sortable="true">Action</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <% if(order.length> 0){%>
+                <%for(let i=order.length-1; i>= 0; i--){%>
+                  <tr>
+                    <td>
+                      <%= order[i].orderDate %>
+                    </td>
+                    <td>
+                      <%= order[i]._id %>
+                    </td>
+                    <td>
+                      <%= order[i].customer.name %>
+                    </td>
+                    <td>
+                      <%= order[i].address %>
+                    </td>
+                    <td>
+                      <%= order[i].total %>
+                    </td>
+                    <td>
+                      <select name="orderStatus" id="orderStatus"
+                        onchange="updateOrderStatus('<%= order[i]._id %>', this.value)">
+                        <option value="">
+                          <%= order[i].orderStatus %>
+                        </option>
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+
+                      </select>
+                    </td>
+                    <td>
+                      <%= order[i].payment %>
+                    </td>
+                    <td>
+                      <button type="button" value="" class="btn_3">
+                        <a href="/admin/view_order_details?id=<%=order[i]._id%>" style="color: white;">View</a>
+                      </button>
+                    </td>
+
+
+
+                  </tr>
+                  <%}%>
+                    <%}else{%>
+                      <tr>
+                        <td>Orders Not Found</td>
+                      </tr>
+
+                      <%}%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
+      <script>
+        function updateOrderStatus(orderId, status) {
+          console.log(status, 'status', orderId);
+          fetch("/admin/update_order_status", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              orderStatus: status,
+              orderId: orderId
+
+            })
+          })
+            .then(res => res.json())
+            .then((res) => window.location.reload())
+            .catch(error => console.error(error))
+        }
+      </script>
+
+      <script>
+        function compareDates() {
+          var startDate = document.getElementById("startDate").value;
+          var endDate = document.getElementById("endDate").value;
+
+          if (startDate >= endDate) {
+            document.getElementById("dateError").innerHTML = "End date should be greater than start date";
+            document.getElementById("endDate").value = "";
+          } else {
+            document.getElementById("dateError").innerHTML = "";
+          }
+        }
+      </script>
+
+      
+
+
+
+      <%- include('../layouts/adminLayout/adminfooter') %>
+
+        <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.4/sp-2.1.2/datatables.min.js"></script>
+        <script>
+          $(document).ready(function () {
+            $('#myTable').DataTable();
+          });
+        </script>

@@ -1,0 +1,178 @@
+<%- include('../layouts/adminLayout/adminheader') %>
+
+</head>
+<body>
+    
+        <!--::header part start::-->
+        <%- include('../layouts/adminLayout/adminNavBar') %>
+        <!-- Header part end-->
+    
+    
+        <!-- breadcrumb start-->
+        
+        <!-- breadcrumb start-->
+    
+        <!--================login_part Area =================-->
+        <section class="login_part padding_top">
+            <div class="">
+                <div class="row align-items-center">
+                    
+                    <div class="col-lg-6 col-md-6">
+                        <div class="login_part_form">
+                            <div class="login_part_form_iner">
+                                <h3>Please Add New Coupon</h3>
+                                    <%
+          if(typeof message !== 'undefined'){
+          %><p style="color: black;"><%=message%><%
+          }
+        %>
+                                <form class="row contact_form" method="post" action="" >
+                                  <span id="form-error"></span> 
+                                    <div class="col-md-12 form-group p_star">
+                                        <input type="text" class="form-control" id="couponName" name="couponName" value=""
+                                            placeholder="Enter Name of Coupon">
+                                    </div>
+                                    <span id="name-error"></span>
+                                    
+                                    <div class="col-md-12 form-group p_star">
+                                      <input type="number" class="form-control" id="percentage" name="percentage" value=""
+                                          placeholder="Enter Percentage">
+                                    </div>                                                             
+                                    <span id="description-error"></span>
+                                    
+                                    
+                                    <div class="col-md-12 form-group p_star">
+                                      <br>
+                                      
+                                      <p class="">Enter Expiry Date</p>
+                                    <input type="Date" class="form-control" id="expDate" name="expDate" value=""
+                                      placeholder="">
+                                    </div>                                    
+                                    <span id="price-error"></span>                                                 
+                                    
+                                    <div class="col-md-12 form-group">
+                                        
+                                        <button type="submit" value="submit" id='registerButton'class="btn_3">
+                                            Add Coupon
+                                        </button>                                        
+                                    </div>                                    
+                                </form>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                     
+        </section>
+        
+        <!--================login_part end =================-->
+    
+        <!--::footer_part start::-->
+        
+        <!--::footer_part end::-->
+        <!-- <script>
+            const form = document.querySelector("form")
+            const name = document.querySelector("#name")
+            const description = document.querySelector("#description")
+            const price = document.querySelector("#price")
+            const stock = document.querySelector("#stock")
+            const category = document.querySelector('#category')
+            
+            const nameError = document.getElementById('name-error')
+            const descriptionError = document.getElementById('description-error')
+            const priceError = document.getElementById('price-error')
+            const stockError = document.getElementById('stock-error')
+            const categoryError = document.getElementById('category-error')
+            const formError = document.getElementById('form-error')
+            
+            
+            const namePattern = /^[A-Z][a-z]+(\s[A-Z][a-z]{0,25}){0,3}$/
+            const descriptionPattern = /^[A-Z][a-z]+(\s[a-z]{0,25}){0,15}$/
+            const pricePattern = /^\d{0,10}$/
+            const stockPattern = /^\d{0,10}$/
+            const categoryPattern = /^[A-Z]+(\s[A-Z]{0,25}){0,1}$/
+            
+            
+            
+            
+            let passwordFirstInput = false
+            
+            const nameFunction =  () => {
+              if (!namePattern.test(name.value)) {
+                nameError.textContent = 'Invalid Entry'
+                return false
+              } else {
+                nameError.textContent = ''
+                return true
+              }
+            }
+            const descriptionFunction = () => {
+              if (!descriptionPattern.test(description.value)) {
+                descriptionError.textContent = 'Invalid Entry'
+                return false
+              } else {
+                descriptionError.textContent = ''
+                return true
+              }
+            }
+            const priceFunction = () => {
+              if(!pricePattern.test(price.value)){
+                priceError.textContent = 'Invalid Entry'
+                return false
+              } else {
+                priceError.textContent = ''
+                return true
+              }
+            }
+            const stockFunction =  () => {
+              if(!stockPattern.test(stock.value)){
+                stockError.textContent = 'Invalid Entry'
+                return false
+              } else {
+                stockError.textContent = ''
+                return true
+              }
+            }
+            const categoryFunction =  () => {
+              if(!categoryPattern.test(category.value)){
+                categoryError.textContent = 'Invalid Entry'
+                return false
+              } else {
+                categoryError.textContent = ''
+                return true
+              }
+            }
+            
+            name.addEventListener('input', nameFunction)
+            description.addEventListener('input', descriptionFunction)
+            price.addEventListener('input', priceFunction)
+            stock.addEventListener('input',stockFunction)
+            category.addEventListener('input',categoryFunction)
+            
+            
+            let isFormValid = false
+            
+            const formFunctions = [
+              nameFunction,
+              descriptionFunction,
+              priceFunction,
+              stockFunction,
+              categoryFunction
+              ]
+            
+            document.getElementById("registerButton").addEventListener("click", (event) => {
+              if(formFunctions.every(fn => fn())){
+                isFormValid = true
+              }
+              if(!isFormValid) {
+                event.preventDefault();
+                formError.textContent = 'Invalid Form. Please enter details.'
+                
+              } else {
+                form.submit(); 
+              }
+            });
+            
+            </script>         -->
+            
+<%- include('../layouts/adminLayout/adminfooter') %>      

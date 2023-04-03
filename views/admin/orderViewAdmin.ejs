@@ -1,0 +1,244 @@
+
+<%- include('../layouts/adminLayout/adminheader') %>
+
+</head>
+
+<body>
+  <!--::header part start::-->
+  <%- include('../layouts/adminLayout/adminNavBar') %>
+  <!-- Header part end-->
+
+
+  <!--================Home Banner Area =================-->
+  <!-- breadcrumb start-->
+  
+  <!-- breadcrumb start-->
+
+  <!--================Cart Area =================-->
+
+       <%
+          if(typeof message !== 'undefined'){
+          %><p style="color: rgb(186, 13, 13);"><%=message%><%
+          }
+        %>
+        <section class="cart_area padding_top">
+          <div class="container">
+            <div class="cart_inner">
+              <div class="table-responsive">
+                <div >
+                <h5>Date &emsp; &nbsp;&emsp;&emsp;: <%= order.orderDate %></h5>
+                <h5>Order No &emsp; &nbsp;: <%= order._id %></h5>
+                <h5>Payment&emsp; &ensp;: <%= order.payment %></h5>
+                <h5>Order Status: <%= order.orderStatus %></h5>
+                
+              
+              </div> 
+              <br>
+              <br>
+              <% if(order.items.length> 0){ %>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Product</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col"> Price</th>
+                      <th scope="col"> Sub Total</th>
+
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    
+                      <%for(let i=0; i < order.items.length;i++ ){%>
+                        <tr>
+                          <td>
+                            <div class="media">
+                              <div class="d-flex">
+                                <img src="/images/<%= order.items[i].items[0].img1[0] %>" alt="" width="75px" />
+                              </div>
+                              <div class="media-body">
+                                <p>
+                                  <%= order.items[i].items[0].productName %>
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <h5>
+                              <%= order.items[i].quantity %>
+                            </h5>
+                          </td>
+                          <td>
+                            <h5>Rs. <%= order.items[i].items[0].price %>
+                            </h5>
+                          </td>
+                          <td>
+
+                            <h5>Rs. <%= order.items[i].quantity * order.items[i].items[0].price %>
+                            </h5>
+
+                          </td>
+
+
+
+                        </tr>
+                        <%}%>
+
+
+                            <!-- <tr>
+          <td>
+            <div class="media">
+              <div class="d-flex">
+                <img src="img/product/single-product/cart-1.jpg" alt="" />
+              </div>
+              <div class="media-body">
+                <p>Minimalistic shop for multipurpose use</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <h5>$360.00</h5>
+          </td>
+          <td>
+            <div class="product_count">
+               <input type="text" value="1" min="0" max="10" title="Quantity:"
+                class="input-text qty input-number" />
+              <button
+                class="increase input-number-increment items-count" type="button">
+                <i class="ti-angle-up"></i>
+              </button>
+              <button
+                class="reduced input-number-decrement items-count" type="button">
+                <i class="ti-angle-down"></i>
+              </button> -->
+                            <!-- <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
+              <input class="input-number" type="text" value="1" min="0" max="10">
+              <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
+            </div>
+          </td>
+          <td>
+            <h5>$720.00</h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="media">
+              <div class="d-flex">
+                <img src="img/product/single-product/cart-1.jpg" alt="" />
+              </div>
+              <div class="media-body">
+                <p>Minimalistic shop for multipurpose use</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            <h5>$360.00</h5>
+          </td>
+          <td>
+            <div class="product_count">
+              <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
+              <input class="input-number" type="text" value="1" min="0" max="10">
+              <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
+            </div>
+          </td>
+          <td>
+            <h5>$720.00</h5>
+          </td>
+        </tr> -->
+        <%if(order.couponApplied){%>
+
+        <tr>
+          <td><h4>  Coupon: <%= order.couponId.couponName %></h4></td>
+          <td></td>
+          <td><h5> Discount</h5></td>
+          <td><h5>Rs. -<%=order.couponDiscount%></h5></td>
+        </tr>
+        <%}%>
+
+
+
+                            <tr>
+                              <td>
+                                <button type="" value="" class="btn_3">
+                                  <a href="/invoice_download?id=<%=order._id%>" style="color: white;">Download Invoice</a>                                        
+                                </button>
+                              </td>
+                              <td></td>
+                              <td>
+                                <h4>Total</h4>
+                              </td>
+                              <td>
+                                <h4>Rs. <%= order.total %>
+                                </h4>
+                              </td>
+                            </tr>
+
+                            <!-- <tr class="shipping_area">
+          <td></td>
+          <td></td>
+          <td>
+            <h5>Shipping</h5>
+          </td>
+          <td>
+            <div class="shipping_box">
+              <ul class="list">
+                <li>
+                  <a href="#">Flat Rate: $5.00</a>
+                </li>
+                <li>
+                  <a href="#">Free Shipping</a>
+                </li>
+                <li>
+                  <a href="#">Flat Rate: $10.00</a>
+                </li>
+                <li class="active">
+                  <a href="#">Local Delivery: $2.00</a>
+                </li>
+              </ul>
+              <h6>
+                Calculate Shipping
+                <i class="fa fa-caret-down" aria-hidden="true"></i>
+              </h6>
+              <select class="shipping_select">
+                <option value="1">Bangladesh</option>
+                <option value="2">India</option>
+                <option value="4">Pakistan</option>
+              </select>
+              <select class="shipping_select section_bg">
+                <option value="1">Select a State</option>
+                <option value="2">Select a State</option>
+                <option value="4">Select a State</option>
+              </select> -->
+                            <!-- <input type="text" placeholder="Postcode/Zipcode" /> -->
+
+              </div>
+
+              </td>
+
+              </tr>
+              </tbody>
+              <!-- <td>
+        <button type="button" value="" class="btn_3" onclick="cancelOrder('<%=order._id%>')">
+          Return Order 
+        </button>
+      </td> -->
+              </table>
+              <%}else{%>
+
+                <p>No Products added to the cart</p>
+
+                <%}%>
+
+            </div>
+          </div>
+        </section>
+  <!--================End Cart Area =================-->
+
+  <!--::footer_part start::-->
+  
+  <!--::footer_part end::-->
+
+  <%- include('../layouts/adminLayout/adminfooter') %>
+
+  
