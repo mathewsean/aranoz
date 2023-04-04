@@ -258,6 +258,8 @@ const verifyLogin = async (req, res) => {
     const password = req.body.password
     const findUser = await User.findOne({ email: email })
 
+    console.log(categories);
+
     if (findUser) {
       if (findUser.block) {
 
@@ -367,13 +369,20 @@ const loadCategoryProduct = async (req, res) => {
     const productData = await Product.find({ category: categoryId })
     const categoryData = await Category.findOne({ _id: categoryId })
     const categories = await Category.find()
+
+    if(req.session.userData){
+
     const userData = await User.findOne({_id:req.session.userData._id})
+    res.render('categoryProductFilter', { products: productData, categoryData, categories,userData})
 
+    }else{
 
-    res.render('categoryProductFilter', { products: productData, categoryData, categories, userData })
+    res.render('categoryProductFilter', { products: productData, categoryData, categories})
+
+    }
 
   } catch (error) {
-    console.log(error.message);
+    console.log(error.message);  
   }
 }
 
