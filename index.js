@@ -1,6 +1,10 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
-mongoose.connect("mongodb://127.0.0.1:27017/ecom_furniture_arnoz")
+mongoose.connect(process.env.MONGODBCONNECT)
 
 const express = require('express')
 const app = express()
