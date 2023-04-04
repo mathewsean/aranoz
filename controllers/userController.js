@@ -253,14 +253,10 @@ const verifyOTP = async (req, res) => {
 const verifyLogin = async (req, res) => {
   try {
 
+    const categories = await Category.find({ block: false })
     const email = req.body.email
     const password = req.body.password
-
     const findUser = await User.findOne({ email: email })
-
-    const categories = await Category.find()
-
-
 
     if (findUser) {
       if (findUser.block) {
@@ -276,7 +272,7 @@ const verifyLogin = async (req, res) => {
         }
 
         else {
-          res.render('user_login', { message: 'Password Incorrect',categories })
+          res.render('user_login', { message: 'Password Incorrect', categories })
         }
 
       }
