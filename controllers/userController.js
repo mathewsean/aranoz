@@ -1,6 +1,6 @@
-if (process.env.NODE_ENV !== 'production') {
+
   require('dotenv').config()
-}
+
 
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
