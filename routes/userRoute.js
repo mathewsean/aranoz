@@ -65,10 +65,10 @@ user_route.get('/edit_address',auth.isLogin,userController.loadEditAddress)
 user_route.post('/edit_address',userController.updateAddress)
 user_route.post('/delete_address',userController.deleteAddress)
 
-user_route.get('/forgot_password',auth.isLogout,userController.loadForgotPassword)
+user_route.get('/forgot_password',userController.loadForgotPassword)
 user_route.post('/forgot_password',userController.sendOtpForgotPassword)
 
-user_route.get('/forgot_password_OTP',auth.isLogout,userController.loadForgotPasswordOTP)
+user_route.get('/forgot_password_OTP',userController.loadForgotPasswordOTP)
 user_route.post('/forgot_password_OTP',userController.verifyForgotPasswordOTP)
 
 user_route.post('/add_to_cart',auth.isLogin,userController.addToCart)

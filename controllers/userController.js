@@ -258,12 +258,14 @@ const verifyLogin = async (req, res) => {
 
     const findUser = await User.findOne({ email: email })
 
+    const categories = await Category.find()
+
 
 
     if (findUser) {
       if (findUser.block) {
 
-        res.render('user_login', { message: 'Please contact customer care' })
+        res.render('user_login', { message: 'Please contact customer care', categories })
 
       } else {
         const passwordMatch = await bcrypt.compare(password, findUser.spassword)
@@ -274,13 +276,13 @@ const verifyLogin = async (req, res) => {
         }
 
         else {
-          res.render('user_login', { message: 'Password Incorrect' })
+          res.render('user_login', { message: 'Password Incorrect',categories })
         }
 
       }
     }
     else {
-      res.render('user_login', { message: 'Email is not registred. Please Register.' })
+      res.render('user_login', { message: 'Email is not registred. Please Register.', categories })
     }
 
   }
@@ -419,6 +421,8 @@ const loadUserProfileEdit = async (req, res) => {
 const updateUserProfile = async (req, res) => {
   try {
 
+    const categories = await Category.find()
+
     const userDataUpdate = await User.findByIdAndUpdate(
       { _id: req.session.userData._id },
       {
@@ -434,7 +438,7 @@ const updateUserProfile = async (req, res) => {
       res.redirect('/')
     }
     else {
-      res.render('userProfileEdit', { message: 'Please Try Again.' })
+      res.render('userProfileEdit', { message: 'Please Try Again.',categories })
     }
 
 
@@ -480,6 +484,8 @@ const loadAddAddress = async (req, res) => {
 const addAddress = async (req, res) => {
   try {
 
+    const categories = await Category.find()
+
     if (
       req.body.firstName != "" &&
       req.body.lastName != "" &&
@@ -517,13 +523,13 @@ const addAddress = async (req, res) => {
 
       } else {
 
-        res.render('addAddress', { message: 'Please try again' })
+        res.render('addAddress', { message: 'Please try again', categories })
 
       }
 
 
     } else {
-      res.render('addAddress', { message: 'Please enter the details.' })
+      res.render('addAddress', { message: 'Please enter the details.', categories })
     }
 
   } catch (error) {
@@ -615,8 +621,8 @@ const loadForgotPassword = async (req, res) => {
   try {
 
     const categories = await Category.find()
-    const userData = await User.findOne({_id:req.session.userData._id})
-    res.render('forgotPassword', { categories, userData })
+    
+    res.render('forgotPassword', { categories})
 
   } catch (error) {
     console.log(error.message);
@@ -633,6 +639,7 @@ const sendOtpForgotPassword = async (req, res) => {
 
     const email = req.body.email
     const findEmail = await User.findOne({ email: email })
+    const categories = await Category.find()
 
 
 
@@ -678,7 +685,7 @@ const sendOtpForgotPassword = async (req, res) => {
     } else {
       
       
-      res.render('forgotPassword', { message: 'Not a Registred Email' })
+      res.render('forgotPassword', { message: 'Not a Registred Email',categories })
     }
 
 
@@ -711,6 +718,7 @@ const verifyForgotPasswordOTP = async (req, res) => {
 
     const otp = req.body.otp
     const upassword = await securePassword(req.body.password)
+    const categories = await Category.find()
 
 
 
@@ -721,12 +729,12 @@ const verifyForgotPasswordOTP = async (req, res) => {
       )
 
       if (updateOTP) {
-        res.render('verifyOTPforgotPassword', { message: 'Password Updated Succesfully' })
+        res.render('verifyOTPforgotPassword', { message: 'Password Updated Succesfully', categories })
       }
 
     }
     else {
-      res.render('verifyOTPforgotPassword', { message: 'Please enter a valid OTP' })
+      res.render('verifyOTPforgotPassword', { message: 'Please enter a valid OTP', categories })
     }
 
 
