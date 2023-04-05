@@ -281,7 +281,7 @@ const verifyLogin = async (req, res) => {
       }
     }
     else {
-      res.render('user_login', { message: 'Email is not registred. Please Register.', categories })
+      res.render('user_login', { message: 'Email is not registred. Please Register.', categories }) 
     }
 
   }
@@ -317,8 +317,12 @@ const loadSingleProduct = async (req, res) => {
     const id = req.query.id
     const productData = await Product.findById(id).populate('category')
     const categories = await Category.find({ block: false })
+    if(req.session.userData){
     const userData = await User.findOne({_id:req.session.userData._id})
     res.render('single_product', { products: productData, categories, userData })
+    }else{
+      res.render('single_product', { products: productData, categories })
+    }
 
   } catch (error) {
     console.log(error.message);
