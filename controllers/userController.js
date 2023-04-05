@@ -22,7 +22,7 @@ const Swal = require('sweetalert2')
 const PDFDocument = require('pdfkit')
 
 
-//To convert password to secure password
+//securing password
 securePassword = async (password) => {
   try {
 
@@ -36,7 +36,7 @@ securePassword = async (password) => {
   }
 }
 
-//To open Home Page
+//Home Page loading
 const loadHome = async (req, res) => {
   try {
 
@@ -102,7 +102,7 @@ const loadHome = async (req, res) => {
   }
 }
 
-//To open Login page
+
 const loadLogin = async (req, res) => {
   try {
 
@@ -116,7 +116,7 @@ const loadLogin = async (req, res) => {
 }
 
 
-//To open Register Page
+
 const loadRegister = async (req, res) => {
   try {
 
@@ -129,10 +129,10 @@ const loadRegister = async (req, res) => {
   }
 }
 
-//To save details of user till verififcation
+
 const registredUser = {}
 
-//To save user to database
+
 const insertUser = async (req, res) => {
   try {
 
@@ -199,7 +199,7 @@ const insertUser = async (req, res) => {
 
 }
 
-//To open page to verify OTP send to email 
+
 const loadOTP = async (req, res) => {
   try {
 
